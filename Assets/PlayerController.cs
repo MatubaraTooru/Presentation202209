@@ -18,12 +18,18 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Vector2 dir = GameObject.Find("Crosshair").transform.position - transform.position;
+        transform.up = dir;
         _h = Input.GetAxisRaw("Horizontal");
         _v = Input.GetAxisRaw("Vertical");
     }
     private void FixedUpdate()
     {
-        Vector3 dir = new Vector3(_h, _v).normalized;
-        _rb.velocity = dir * _moveSpeed;
+        Vector3 dom = new Vector3(_h, _v).normalized;
+        _rb.velocity = dom * _moveSpeed;
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
     }
 }

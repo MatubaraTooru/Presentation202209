@@ -9,22 +9,30 @@ public class EnemyControllerBase : MonoBehaviour
     [SerializeField] float _movespeed = 5;
     Rigidbody2D _rb;
     GameObject _player;
-    [SerializeField] float _stoppingDistance = 0.05f;
-    [SerializeField] float _playerSearchRangeRadius = 5f;
+    [SerializeField] float _stoppingDistancetoPlayer = 0.05f;
+    [SerializeField] float _stoppingDistancetoTarget = 0.05f;
+    [SerializeField] float _gunshotSearchRangeRadius = 5f;
     float _saveSpeed;
-    /// <summary>弾丸のプレハブ</summary>
-    [SerializeField] GameObject _bullet;
+    /// <summary>Enemyの移動目標</summary>
+    [SerializeField] Transform[] _targets;
+    int _currentTargetIndex;
+    [SerializeField] float _timeLimitToNextTarget;
+    float _timer;
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _saveSpeed = _movespeed;
     }
+    private void Update()
+    {
+        _timer += Time.deltaTime;
+    }
     void FixedUpdate()
     {
         if (_player)
         {
-            float distance = Vector2.Distance(transform.position, _player.transform.position);
-            if (_stoppingDistance > distance)
+            float distancetoPlayer = Vector2.Distance(transform.position, _player.transform.position);
+            if (_stoppingDistancetoPlayer > distancetoPlayer)
             {
                 _movespeed = default;
             }
@@ -32,12 +40,33 @@ public class EnemyControllerBase : MonoBehaviour
             {
                 _movespeed = _saveSpeed;
             }
-            Vector3 dir = (_player.transform.position - transform.position).normalized;
+            Vector2 dir = (_player.transform.position - transform.position).normalized;
             _rb.velocity = dir * _movespeed;
             transform.up = dir;
         }
+        else if (_targets[0])
+        {
+            float distancetoTarget = Vector2.Distance(this.transform.position, _targets[_currentTargetIndex % _targets.Length].position);
+            if (distancetoTarget > _stoppingDistancetoTarget)
+            {
+                Vector2 dir = (_targets[_currentTargetIndex % _targets.Length].transform.position - this.transform.position).normalized;
+                _rb.velocity = dir * _movespeed;
+                transform.up = dir;
+            }
+            else
+            {
+                _currentTargetIndex++;
+            }
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            _player = collision.gameObject;
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
@@ -50,11 +79,11 @@ public class EnemyControllerBase : MonoBehaviour
     }
     GameObject SearchGunshot()
     {
-        var cols = Physics2D.OverlapCircleAll(this.transform.position, _playerSearchRangeRadius);
+        var cols = Physics2D.OverlapCircleAll(this.transform.position, _gunshotSearchRangeRadius);
 
         foreach (var c in cols)
         {
-            if (c.gameObject.tag == "Player")
+            if (c.gameObject.tag == "Gunshot")
             {
                 return c.gameObject;
             }
