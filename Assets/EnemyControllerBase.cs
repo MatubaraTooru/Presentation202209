@@ -11,8 +11,9 @@ public class EnemyControllerBase : MonoBehaviour
     GameObject _player;
     [SerializeField] float _stoppingDistancetoPlayer = 0.05f;
     [SerializeField] float _stoppingDistancetoTarget = 0.05f;
-    [SerializeField] float _gunshotSearchRangeRadius = 5f;
+    //[SerializeField] float _gunshotSearchRangeRadius = 5f;
     float _saveSpeed;
+    [SerializeField] GameObject _bullet;
     /// <summary>Enemy‚ÌˆÚ“®–Ú•W</summary>
     [SerializeField] Transform[] _targets;
     int _currentTargetIndex;
@@ -77,17 +78,21 @@ public class EnemyControllerBase : MonoBehaviour
     {
         _player = null;
     }
-    GameObject SearchGunshot()
-    {
-        var cols = Physics2D.OverlapCircleAll(this.transform.position, _gunshotSearchRangeRadius);
+    //void shooting()
+    //{
+    //    Instantiate<GameObject>(_bullet, transform);
+    //}
+    //GameObject SearchGunshot()
+    //{
+    //    var cols = Physics2D.OverlapCircleAll(this.transform.position, _gunshotSearchRangeRadius);
 
-        foreach (var c in cols)
-        {
-            if (c.gameObject.tag == "Gunshot")
-            {
-                return c.gameObject;
-            }
-        }
-        return null;
-    }
+    //    foreach (var c in cols)
+    //    {
+    //        if (c.gameObject.tag == "Gunshot")
+    //        {
+    //            return c.gameObject;
+    //        }
+    //    }
+    //    return null;
+    //}
 }
