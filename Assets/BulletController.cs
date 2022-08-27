@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    Rigidbody2D _rb;
-    [SerializeField] float _bulletspeed;
-    void Start()
-    {
-        _rb = GetComponent<Rigidbody2D>();
-        float random1 = Random.Range(50f, 50f);
-        float random2 = Random.Range(50f, 50f);
-        Vector2 force = new Vector2(random1, random2);
-        _rb.AddForce(force);
-        _rb.AddForce(tra)
-    }
-
-    void Update()
+    private void Awake()
     {
         
+    }
+    void Start()
+    {
+        
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
