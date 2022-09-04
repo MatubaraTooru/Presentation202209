@@ -10,16 +10,6 @@ public class ShotgunController : MonoBehaviour
     [SerializeField] float _bulletSpeed;
     [SerializeField] Transform _muzzle;
     [SerializeField] float _spreadAngle;
-    List<Quaternion> _bullets;
-    void Awake()
-    {
-        _bullets = new List<Quaternion>(_bulletCount);
-        for (int i = 0; i < _bulletCount; i++)
-        {
-            _bullets.Add(Quaternion.Euler(Vector3.zero));
-        }
-    }
-
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -29,13 +19,12 @@ public class ShotgunController : MonoBehaviour
     }
     public void Fire()
     {
-        int i = 0;
-        foreach(Quaternion quat in _bullets)
+        for (int i = 0; i < _bulletCount; i++)
         {
-            _bullets[i] = Random.rotation;
-            GameObject b = Instantiate(_bulletPurefab, _muzzle.position, _muzzle.rotation);
-            b.transform.rotation = Quaternion.RotateTowards(b.transform.rotation, _bullets[i], _spreadAngle);
-            b.GetComponent<Rigidbody2D>().AddForce(b.transform.right * _bulletSpeed);
+            Quaternion r = Random.rotation;
+            GameObject b = Instantiate(_bulletPurefab, _muzzle.position, transform.rotation);
+            b.transform.rotation = Quaternion.RotateTowards(b.transform.rotation, r, _spreadAngle);
+            b.GetComponent<Rigidbody2D>().AddForce(b.transform.up * _bulletSpeed, ForceMode2D.Impulse);
         }
     }
 }
