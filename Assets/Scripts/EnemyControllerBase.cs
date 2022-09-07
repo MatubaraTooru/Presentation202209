@@ -44,6 +44,7 @@ public class EnemyControllerBase : MonoBehaviour
             Vector2 dir = (_player.transform.position - transform.position).normalized;
             _rb.velocity = dir * _movespeed;
             transform.up = dir;
+            transform.GetChild(2).GetComponent<ShotgunController>().Fire();
         }
         else if (_targets[0])
         {
