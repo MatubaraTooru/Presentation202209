@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
@@ -100,10 +100,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPurefab: {fileID: 8431407443565997090, guid: 16fb440b69dbb31429a119891d9a632f, type: 3}
   _bulletCount: 9
-  _bulletSpeed: 30
+  _bulletSpeed: 20
   _muzzle: {fileID: 6224273576973276260}
-  _spreadAngle: 20
-  _firerate: 3
+  _spreadAngle: 30
+  _firerate: 1
+--- !u!1 &5551640050442031218
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1956637972163329415}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1956637972163329415
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5551640050442031218}
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0.015498759, y: 2.1350846, z: 0.027647484}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8008404767356018941}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6655696795206891994
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,6 +325,7 @@ Transform:
   - {fileID: 8008404767520186215}
   - {fileID: 7993543357375914601}
   - {fileID: 2167160856287066739}
+  - {fileID: 1956637972163329415}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
@@ -385,13 +417,15 @@ MonoBehaviour:
   _movespeed: 4
   _stoppingDistancetoPlayer: 3
   _stoppingDistancetoTarget: 0.05
-  _bullet: {fileID: 0}
+  _bullet: {fileID: 8431407443565997090, guid: 16fb440b69dbb31429a119891d9a632f, type: 3}
   _targets:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _timeLimitToNextTarget: 0
+  _wallLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!61 &8008404767356018940
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -17,8 +17,8 @@ public class EnemyControllerBase : MonoBehaviour
     /// <summary>Enemy‚ÌˆÚ“®–Ú•W</summary>
     [SerializeField] Transform[] _targets;
     int _currentTargetIndex;
-    [SerializeField] float _timeLimitToNextTarget;
     float _timer;
+    [SerializeField] LayerMask _wallLayer = 0;
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -30,12 +30,41 @@ public class EnemyControllerBase : MonoBehaviour
     }
     void FixedUpdate()
     {
+        Move();
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            _player = collision.gameObject;
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            _player = collision.gameObject;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        _player = null;
+    }
+    private void Move()
+    {
+        Debug.DrawLine(transform.position, transform.position + transform.up);
+        RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + transform.up, _wallLayer);
         if (_player)
         {
             float distancetoPlayer = Vector2.Distance(transform.position, _player.transform.position);
             if (_stoppingDistancetoPlayer > distancetoPlayer)
             {
                 _movespeed = default;
+            }
+            else if (hit.collider.gameObject.CompareTag("Wall"))
+            {
+                _movespeed = default;
+                Debug.Log("•Ç‚ðŒŸ’m‚µ‚Ü‚µ‚½");
             }
             else
             {
@@ -60,24 +89,6 @@ public class EnemyControllerBase : MonoBehaviour
                 _currentTargetIndex++;
             }
         }
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            _player = collision.gameObject;
-        }
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            _player = collision.gameObject;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        _player = null;
     }
     //void shooting()
     //{
