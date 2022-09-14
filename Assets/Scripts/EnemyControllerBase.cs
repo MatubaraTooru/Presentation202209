@@ -19,6 +19,8 @@ public class EnemyControllerBase : MonoBehaviour
     int _currentTargetIndex;
     float _timer;
     [SerializeField] LayerMask _wallLayer = 0;
+    [SerializeField] Transform _lineend;
+    [SerializeField] GameObject _crashEffect;
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -50,21 +52,28 @@ public class EnemyControllerBase : MonoBehaviour
     {
         _player = null;
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            Instantiate(_crashEffect, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+    }
     private void Move()
     {
-        Debug.DrawLine(transform.position, transform.position + transform.up);
-        RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + transform.up, _wallLayer);
+        Debug.DrawLine(transform.position, _lineend.position);
+        RaycastHit2D hit = Physics2D.Linecast(transform.position, _lineend.position, _wallLayer);
         if (_player)
         {
             float distancetoPlayer = Vector2.Distance(transform.position, _player.transform.position);
-            if (_stoppingDistancetoPlayer > distancetoPlayer)
+            if (!hit.collider.gameObject.CompareTag("Wall"))
             {
-                _movespeed = default;
+                transform.GetChild(2).GetComponent<ShotgunController>().Fire();
             }
-            else if (hit.collider.gameObject.CompareTag("Wall"))
+            else if (_stoppingDistancetoPlayer > distancetoPlayer)
             {
                 _movespeed = default;
-                Debug.Log("•Ç‚ðŒŸ’m‚µ‚Ü‚µ‚½");
             }
             else
             {
@@ -73,7 +82,6 @@ public class EnemyControllerBase : MonoBehaviour
             Vector2 dir = (_player.transform.position - transform.position).normalized;
             _rb.velocity = dir * _movespeed;
             transform.up = dir;
-            transform.GetChild(2).GetComponent<ShotgunController>().Fire();
         }
         else if (_targets[0])
         {
