@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     /// <summary>プレイヤーの移動スピード</summary>
     [SerializeField] float _moveSpeed;
+    [SerializeField] GameManager _gm;
     Rigidbody2D _rb;
     float _h;
     float _v;
@@ -31,7 +32,8 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            GetComponent<GameManager>()._death = true;
+            _gm._death = true;
+            gameObject.SetActive(false);
         }
     }
 }

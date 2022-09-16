@@ -67,7 +67,7 @@ public class EnemyControllerBase : MonoBehaviour
         if (_player)
         {
             float distancetoPlayer = Vector2.Distance(transform.position, _player.transform.position);
-            if (!hit.collider.gameObject.CompareTag("Wall"))
+            if (!hit)
             {
                 transform.GetChild(2).GetComponent<ShotgunController>().Fire();
             }
