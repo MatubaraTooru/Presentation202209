@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     /// <summary>プレイヤーの移動スピード</summary>
     [SerializeField] float _moveSpeed;
     [SerializeField] GameManager _gm;
+    [SerializeField] bool _godmode;
+    [SerializeField] GameObject _crashEffect;
     Rigidbody2D _rb;
     float _h;
     float _v;
@@ -30,8 +32,9 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Bullet"))
+        if (collision.gameObject.CompareTag("Bullet") && !_godmode)
         {
+            Instantiate(_crashEffect, transform.position, Quaternion.identity);
             _gm._death = true;
             gameObject.SetActive(false);
         }

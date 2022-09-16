@@ -21,6 +21,7 @@ public class EnemyControllerBase : MonoBehaviour
     [SerializeField] LayerMask _wallLayer = 0;
     [SerializeField] Transform _lineend;
     [SerializeField] GameObject _crashEffect;
+    [SerializeField] GameManager _gm;
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -57,6 +58,7 @@ public class EnemyControllerBase : MonoBehaviour
         if (collision.gameObject.CompareTag("Bullet"))
         {
             Instantiate(_crashEffect, transform.position, Quaternion.identity);
+            _gm._score += 100;
             Destroy(gameObject);
         }
     }

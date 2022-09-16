@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public bool _death = false;
     [SerializeField] GameObject _deathPanel;
+    public int _score;
     void Start()
     {
         
@@ -14,20 +15,21 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
-    }
-    void death()
-    {
         if (_death == true)
         {
-            _deathPanel.SetActive(true);
+            Gameover();
         }
     }
-    void Retry()
+    void Gameover()
     {
-        if (_death == true && Input.GetKeyDown("R"))
+        _deathPanel.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene("GameScene");
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("Title");
         }
     }
 }
