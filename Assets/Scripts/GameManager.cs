@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public bool _death = false;
     [SerializeField] GameObject _deathPanel;
-    public int _score;
+    int _score;
     void Start()
     {
         
@@ -31,5 +31,10 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("Title");
         }
+    }
+    public void GetScore(int getScore)
+    {
+        _score += getScore;
+        Debug.Log(_score);
     }
 }

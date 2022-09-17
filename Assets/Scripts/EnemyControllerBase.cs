@@ -58,7 +58,7 @@ public class EnemyControllerBase : MonoBehaviour
         if (collision.gameObject.CompareTag("Bullet"))
         {
             Instantiate(_crashEffect, transform.position, Quaternion.identity);
-            _gm._score += 100;
+            _gm.GetScore(100);
             Destroy(gameObject);
         }
     }
