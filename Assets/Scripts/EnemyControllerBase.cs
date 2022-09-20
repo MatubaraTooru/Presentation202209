@@ -21,7 +21,11 @@ public class EnemyControllerBase : MonoBehaviour
     [SerializeField] LayerMask _wallLayer = 0;
     [SerializeField] Transform _lineend;
     [SerializeField] GameObject _crashEffect;
-    [SerializeField] GameManager _gm;
+    GameManager _gm;
+    private void Awake()
+    {
+        _gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -33,7 +37,10 @@ public class EnemyControllerBase : MonoBehaviour
     }
     void FixedUpdate()
     {
-        Move();
+        if (_gm._start == true)
+        {
+            Move();
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -64,7 +71,7 @@ public class EnemyControllerBase : MonoBehaviour
     }
     private void Move()
     {
-        Debug.DrawLine(transform.position, _lineend.position);
+        Debug.DrawLine(transform.position, _lineend.position, Color.red);
         RaycastHit2D hit = Physics2D.Linecast(transform.position, _lineend.position, _wallLayer);
         if (_player)
         {
@@ -72,6 +79,10 @@ public class EnemyControllerBase : MonoBehaviour
             if (!hit)
             {
                 transform.GetChild(2).GetComponent<ShotgunController>().Fire();
+            }
+            else if (hit)
+            {
+                _player = null;
             }
             else if (_stoppingDistancetoPlayer > distancetoPlayer)
             {

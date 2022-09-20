@@ -11,9 +11,11 @@ public class ShotgunController : MonoBehaviour
     [SerializeField] Transform _muzzle;
     [SerializeField] float _spreadAngle = 20f;
     [SerializeField] float _firerate = 3f;
+    AudioSource _fireSound;
     float _t;
     private void Start()
     {
+        _fireSound = GetComponent<AudioSource>();
         _t = _firerate;
     }
     void Update()
@@ -28,8 +30,10 @@ public class ShotgunController : MonoBehaviour
     {
         if (_t > _firerate)
         {
+            _fireSound.Play();
             for (int i = 0; i < _bulletCount; i++)
             {
+                //Šp“x‚ðƒ‰ƒ“ƒ_ƒ€‚ÅŒˆ‚ß‚é
                 Quaternion r = Random.rotation;
                 GameObject b = Instantiate(_bulletPurefab, _muzzle.position, transform.rotation);
                 b.transform.rotation = Quaternion.RotateTowards(b.transform.rotation, r, _spreadAngle);

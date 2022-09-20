@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     int _score;
     GameObject[] _enemiesArray;
     [SerializeField] Image _fadeImage;
-    bool _start = false;
+    public bool _start { get; set;}
     void Start()
     {
         _enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");

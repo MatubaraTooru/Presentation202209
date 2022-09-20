@@ -22,8 +22,11 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 dir = GameObject.Find("Crosshair").transform.position - transform.position;
         transform.up = dir;
-        _h = Input.GetAxisRaw("Horizontal");
-        _v = Input.GetAxisRaw("Vertical");
+        if (_gm._start == true)
+        {
+            _h = Input.GetAxisRaw("Horizontal");
+            _v = Input.GetAxisRaw("Vertical");
+        }
     }
     private void FixedUpdate()
     {
@@ -37,6 +40,10 @@ public class PlayerController : MonoBehaviour
             Instantiate(_crashEffect, transform.position, Quaternion.identity);
             _gm._death = true;
             gameObject.SetActive(false);
+        }
+        else if (collision.gameObject.CompareTag("Door"))
+        {
+            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(transform.up * 100, ForceMode2D.Impulse);
         }
     }
 }
