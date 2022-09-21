@@ -13,12 +13,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject _deathPanel;
     //ƒXƒRƒA‚ğ•Û‚·‚é•Ï”
     int _score;
-    public List<GameObject> _enemies = new();
+    public GameObject[] _enemies { get; set;}
     [SerializeField] Image _fadeImage;
     public bool _start { get; set;}
     void Start()
     {
+        _enemies = GameObject.FindGameObjectsWithTag("Enemy");
         _fadeImage.DOFade(0, 1).OnComplete(() => _start = true);
+        Debug.Log(_enemies.Length);
     }
 
     void Update()
@@ -27,7 +29,7 @@ public class GameManager : MonoBehaviour
         {
             Gameover();
         }
-        else if (_enemies.Count == 0)
+        else if (_enemies.Length == 0)
         {
             GameClear();
         }
@@ -52,12 +54,5 @@ public class GameManager : MonoBehaviour
     void GameClear()
     {
         GetComponent<ChengeScene>().ChangeScene("ClearScene");
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject == null)
-        {
-            GameClear();
-        }
     }
 }

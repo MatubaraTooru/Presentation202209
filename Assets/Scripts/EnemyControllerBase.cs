@@ -28,7 +28,6 @@ public class EnemyControllerBase : MonoBehaviour
     private void Awake()
     {
         _gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        _gm._enemies.Add(this.gameObject);
     }
     void Start()
     {
@@ -68,9 +67,8 @@ public class EnemyControllerBase : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            Instantiate(_crashEffect, transform.position, Quaternion.identity);
             _gm.GetScore(100);
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
         else if (collision.gameObject.CompareTag("Door"))
         {
@@ -83,20 +81,13 @@ public class EnemyControllerBase : MonoBehaviour
     }
     private void Move()
     {
-        Debug.DrawLine(transform.position, _lineend.position, Color.red);
-        RaycastHit2D hit = Physics2D.Linecast(transform.position, _lineend.position, _wallLayer);
-        if (_player)
+        Debug.DrawLine(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, Color.red);
+        RaycastHit2D hit = Physics2D.Linecast(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, _wallLayer);
+        if (_player && !hit)
         {
             float distancetoPlayer = Vector2.Distance(transform.position, _player.transform.position);
-            if (!hit)
-            {
-                transform.GetChild(2).GetComponent<ShotgunController>().Fire();
-            }
-            else if (hit)
-            {
-                
-            }
-            else if (_stoppingDistancetoPlayer > distancetoPlayer)
+            transform.GetChild(2).GetComponent<ShotgunController>().Fire();
+            if (_stoppingDistancetoPlayer > distancetoPlayer)
             {
                 _movespeed = default;
             }
@@ -122,6 +113,11 @@ public class EnemyControllerBase : MonoBehaviour
                 _currentTargetIndex++;
             }
         }
+    }
+    private void OnDestroy()
+    {
+        GameObject crashEffect = Instantiate(_crashEffect, transform.position, Quaternion.identity);
+        Destroy(crashEffect, 2);
     }
     //void shooting()
     //{
