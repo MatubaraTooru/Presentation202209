@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Door"))
         {
-            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(transform.up * 100, ForceMode2D.Impulse);
+            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(this.gameObject.transform.up * 100, ForceMode2D.Impulse);
         }
     }
 }

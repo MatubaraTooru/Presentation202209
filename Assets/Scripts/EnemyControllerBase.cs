@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using Unity.VisualScripting;
+
 [RequireComponent(typeof(Rigidbody2D))]
 
 public class EnemyControllerBase : MonoBehaviour
@@ -25,6 +28,7 @@ public class EnemyControllerBase : MonoBehaviour
     private void Awake()
     {
         _gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _gm._enemies.Add(this.gameObject);
     }
     void Start()
     {
@@ -68,6 +72,14 @@ public class EnemyControllerBase : MonoBehaviour
             _gm.GetScore(100);
             Destroy(gameObject);
         }
+        else if (collision.gameObject.CompareTag("Door"))
+        {
+            Rigidbody2D obrb = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (obrb.velocity.magnitude > 1)
+            {
+                
+            }
+        }
     }
     private void Move()
     {
@@ -82,7 +94,7 @@ public class EnemyControllerBase : MonoBehaviour
             }
             else if (hit)
             {
-                _player = null;
+                
             }
             else if (_stoppingDistancetoPlayer > distancetoPlayer)
             {
