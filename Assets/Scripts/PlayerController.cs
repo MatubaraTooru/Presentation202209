@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     /// <summary>プレイヤーの移動スピード</summary>
-    [SerializeField] float _moveSpeed;
+    [SerializeField, Header("プレイヤーの移動スピード")] float _moveSpeed;
     [SerializeField] GameManager _gm;
     [SerializeField] bool _godmode;
     [SerializeField] GameObject _crashEffect;
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Vector2 dir = GameObject.Find("Crosshair").transform.position - transform.position;
-        transform.up = dir;
+        transform.right = dir;
         if (_gm._start == true)
         {
             _h = Input.GetAxisRaw("Horizontal");

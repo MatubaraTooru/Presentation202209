@@ -25,6 +25,7 @@ public class EnemyControllerBase : MonoBehaviour
     [SerializeField] Transform _lineend;
     [SerializeField] GameObject _crashEffect;
     GameManager _gm;
+    int _hp = 1;
     private void Awake()
     {
         _gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -67,8 +68,15 @@ public class EnemyControllerBase : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            _gm.GetScore(100);
-            Destroy(this.gameObject);
+            _hp = 0;
+            if (_hp <= 0)
+            {
+                GameObject crashEffect = Instantiate(_crashEffect, transform.position, Quaternion.identity);
+                Destroy(crashEffect, 2);
+                _gm._enemies.Remove(this.gameObject);
+                _gm.GetScore(100);
+                Destroy(this.gameObject);
+            }
         }
         else if (collision.gameObject.CompareTag("Door"))
         {
@@ -113,11 +121,6 @@ public class EnemyControllerBase : MonoBehaviour
                 _currentTargetIndex++;
             }
         }
-    }
-    private void OnDestroy()
-    {
-        GameObject crashEffect = Instantiate(_crashEffect, transform.position, Quaternion.identity);
-        Destroy(crashEffect, 2);
     }
     //void shooting()
     //{

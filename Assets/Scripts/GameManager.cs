@@ -13,25 +13,52 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject _deathPanel;
     //ƒXƒRƒA‚ğ•Û‚·‚é•Ï”
     int _score;
-    public GameObject[] _enemies { get; set;}
+    //Scene‚É‚¢‚éEnemy‚ğ’T‚µ‚Äˆê“I‚É•Û‘¶‚µ‚Ä‚¨‚­”z—ñ
+    GameObject[] _enemiesArray;
+    //Enemy‚ğŠi”[‚µ‚Ä‚¨‚­List
+    public List<GameObject> _enemies = new List<GameObject>(); 
     [SerializeField] Image _fadeImage;
+    //ƒQ[ƒ€‚ğƒNƒŠƒA‚µ‚½‚©”»’f‚·‚é‚½‚ß‚Ì•Ï”
+    bool _clear = false;
     public bool _start { get; set;}
+    //ƒQ[ƒ€’†‚©”»’f‚·‚é•Ï”
+    int isGame = 1;
+    Text _scoreText;
     void Start()
     {
-        _enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if (FindObjectsOfType<GameManager>().Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(this.gameObject);
+        }
+        _enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0; i < _enemiesArray.Length; i++)
+        {
+            _enemies.Add(_enemiesArray[i]);
+        }
         _fadeImage.DOFade(0, 1).OnComplete(() => _start = true);
-        Debug.Log(_enemies.Length);
+        Debug.Log(_enemies.Count);
     }
-
     void Update()
     {
-        if (_death == true)
+        if (isGame == 1)
         {
-            Gameover();
-        }
-        else if (_enemies.Length == 0)
-        {
-            GameClear();
+            if (_death == true)
+            {
+                Gameover();
+            }
+            else if (_enemies.Count == 0)
+            {
+                _clear = true;
+            }
+
+            if (_clear == true)
+            {
+                GameClear();
+            }
         }
     }
     void Gameover()
@@ -53,6 +80,8 @@ public class GameManager : MonoBehaviour
     }
     void GameClear()
     {
+        Debug.Log("GameClear");
         GetComponent<ChengeScene>().ChangeScene("ClearScene");
+        isGame = 0;
     }
 }

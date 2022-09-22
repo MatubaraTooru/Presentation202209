@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class ShotgunController : MonoBehaviour
 {
-    [SerializeField] GameObject _bulletPurefab;
-    [SerializeField] int _bulletCount = 9;
-    [SerializeField] float _bulletSpeed = 30f;
+    [SerializeField, Header("弾丸のプレハブ")] GameObject _bulletPurefab;
+    [SerializeField, Header("射出される弾の数")] int _bulletCount = 9;
+    [SerializeField, Header("弾丸の飛ぶスピード")] float _bulletSpeed = 30f;
     [SerializeField] Transform _muzzle;
-    [SerializeField] float _spreadAngle = 20f;
-    [SerializeField] float _firerate = 3f;
+    [SerializeField, Header("弾丸の射出される範囲")] float _spreadAngle = 20f;
+    [SerializeField, Header("銃の撃てる間隔")] float _firerate = 3f;
+    [SerializeField] bool _playerIdentification = false;
     AudioSource _fireSound;
     float _t;
     private void Start()
@@ -34,10 +35,20 @@ public class ShotgunController : MonoBehaviour
             for (int i = 0; i < _bulletCount; i++)
             {
                 //角度をランダムで決める
-                Quaternion r = Random.rotation;
-                GameObject b = Instantiate(_bulletPurefab, _muzzle.position, transform.rotation);
-                b.transform.rotation = Quaternion.RotateTowards(b.transform.rotation, r, _spreadAngle);
-                b.GetComponent<Rigidbody2D>().AddForce(b.transform.up * _bulletSpeed, ForceMode2D.Impulse);
+                if (_playerIdentification)
+                {
+                    Quaternion r = Random.rotation;
+                    GameObject b = Instantiate(_bulletPurefab, _muzzle.position, transform.rotation);
+                    b.transform.rotation = Quaternion.RotateTowards(b.transform.rotation, r, _spreadAngle);
+                    b.GetComponent<Rigidbody2D>().AddForce(b.transform.right * _bulletSpeed, ForceMode2D.Impulse);
+                }
+                else
+                {
+                    Quaternion r = Random.rotation;
+                    GameObject b = Instantiate(_bulletPurefab, _muzzle.position, transform.rotation);
+                    b.transform.rotation = Quaternion.RotateTowards(b.transform.rotation, r, _spreadAngle);
+                    b.GetComponent<Rigidbody2D>().AddForce(b.transform.up * _bulletSpeed, ForceMode2D.Impulse);
+                }
             }
             _t = 0;
         }
