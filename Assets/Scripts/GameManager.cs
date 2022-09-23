@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     //Playerが倒されたときに表示するパネル
     [SerializeField] GameObject _deathPanel;
     //スコアを保持する変数
-    int _score;
+    public static int _score { get; set;}
     //SceneにいるEnemyを探して一時的に保存しておく配列
     GameObject[] _enemiesArray;
     //Enemyを格納しておくList
@@ -23,17 +23,8 @@ public class GameManager : MonoBehaviour
     public bool _start { get; set;}
     //ゲーム中か判断する変数
     int isGame = 1;
-    Text _scoreText;
     void Start()
     {
-        if (FindObjectsOfType<GameManager>().Length > 1)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(this.gameObject);
-        }
         _enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");
         for (int i = 0; i < _enemiesArray.Length; i++)
         {
