@@ -16,13 +16,10 @@ public class EnemyControllerBase : MonoBehaviour
     [SerializeField] float _stoppingDistancetoTarget = 0.05f;
     //[SerializeField] float _gunshotSearchRangeRadius = 5f;
     float _saveSpeed;
-    [SerializeField] GameObject _bullet;
     /// <summary>Enemy‚ÌˆÚ“®–Ú•W</summary>
     [SerializeField] Transform[] _targets;
     int _currentTargetIndex;
-    float _timer;
     [SerializeField] LayerMask _wallLayer = 0;
-    [SerializeField] Transform _lineend;
     [SerializeField] GameObject _crashEffect;
     GameManager _gm;
     int _hp = 1;
@@ -34,10 +31,6 @@ public class EnemyControllerBase : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _saveSpeed = _movespeed;
-    }
-    private void Update()
-    {
-        _timer += Time.deltaTime;
     }
     void FixedUpdate()
     {
@@ -81,31 +74,36 @@ public class EnemyControllerBase : MonoBehaviour
         else if (collision.gameObject.CompareTag("Door"))
         {
             Rigidbody2D obrb = collision.gameObject.GetComponent<Rigidbody2D>();
-            if (obrb.velocity.magnitude > 1)
+            Debug.Log(obrb.velocity.magnitude);
+            if (obrb.velocity.magnitude > 0.5f)
             {
-                
+                Debug.Log("Start Coroutine");
+                StartCoroutine(stun());
             }
         }
     }
     private void Move()
     {
-        Debug.DrawLine(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, Color.red);
-        RaycastHit2D hit = Physics2D.Linecast(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, _wallLayer);
-        if (_player && !hit)
+        if (_player)
         {
-            float distancetoPlayer = Vector2.Distance(transform.position, _player.transform.position);
-            transform.GetChild(2).GetComponent<ShotgunController>().Fire();
-            if (_stoppingDistancetoPlayer > distancetoPlayer)
+            Debug.DrawLine(transform.position, _player.transform.position, Color.red);
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, _player.transform.position, _wallLayer);
+            if (!hit)
             {
-                _movespeed = default;
+                float distancetoPlayer = Vector2.Distance(transform.position, _player.transform.position);
+                transform.GetChild(2).GetComponent<ShotgunController>().Fire();
+                if (_stoppingDistancetoPlayer > distancetoPlayer)
+                {
+                    _movespeed = default;
+                }
+                else
+                {
+                    _movespeed = _saveSpeed;
+                }
+                Vector2 dir = (_player.transform.position - transform.position).normalized;
+                _rb.velocity = dir * _movespeed;
+                transform.up = dir;
             }
-            else
-            {
-                _movespeed = _saveSpeed;
-            }
-            Vector2 dir = (_player.transform.position - transform.position).normalized;
-            _rb.velocity = dir * _movespeed;
-            transform.up = dir;
         }
         else if (_targets[0])
         {
@@ -121,6 +119,14 @@ public class EnemyControllerBase : MonoBehaviour
                 _currentTargetIndex++;
             }
         }
+    }
+    IEnumerator stun()
+    {
+        _player = null;
+        _rb.velocity = Vector2.zero;
+        _rb.Sleep();
+        yield return new WaitForSeconds(2);
+        _rb.WakeUp();
     }
     //void shooting()
     //{

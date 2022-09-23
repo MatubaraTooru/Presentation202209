@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     //Playerが倒されたときに表示するパネル
     [SerializeField] GameObject _deathPanel;
     //スコアを保持する変数
-    public static int _score { get; set;}
+    public static int _score{ get; set;}
     //SceneにいるEnemyを探して一時的に保存しておく配列
     GameObject[] _enemiesArray;
     //Enemyを格納しておくList
@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     int isGame = 1;
     void Start()
     {
+        _score = 0;
+        Debug.Log(_score);
         _enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");
         for (int i = 0; i < _enemiesArray.Length; i++)
         {
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour
         _deathPanel.SetActive(true);
         if (Input.GetKeyDown(KeyCode.R))
         {
+            _score = 0;
             SceneManager.LoadScene("GameScene");
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
@@ -72,7 +75,7 @@ public class GameManager : MonoBehaviour
     void GameClear()
     {
         Debug.Log("GameClear");
-        GetComponent<ChengeScene>().ChangeScene("ClearScene");
         isGame = 0;
+        GetComponent<ChengeScene>().ChangeScene("ClearScene");
     }
 }

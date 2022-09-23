@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8958315437200826367}
   - component: {fileID: 3231321967789721692}
   - component: {fileID: 8551357738729371706}
-  m_Layer: 0
+  - component: {fileID: 4497234265148531814}
+  m_Layer: 8
   m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,13 +100,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e31ddb45ff08964baddb0befd5dcbd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPurefab: {fileID: 8431407443565997090, guid: 16fb440b69dbb31429a119891d9a632f, type: 3}
+  _bulletPurefab: {fileID: 8431407443565997090, guid: 8aae1691e63f8c24ba1b88dbd9001d53, type: 3}
   _bulletCount: 9
   _bulletSpeed: 20
   _muzzle: {fileID: 6224273576973276260}
   _spreadAngle: 30
   _firerate: 1
-  _playerIdentification: 0
+  _playerIdentification: 1
 --- !u!82 &8551357738729371706
 AudioSource:
   m_ObjectHideFlags: 0
@@ -202,6 +203,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!61 &4497234265148531814
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467997084930229806}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.041905597, y: 0.0034921318}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.28, y: 1.28}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.7911004, y: 0.23934266}
+  m_EdgeRadius: 0
 --- !u!1 &6655696795206891994
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +240,7 @@ GameObject:
   - component: {fileID: 7993543357375914601}
   - component: {fileID: 5457007856272540415}
   - component: {fileID: 7957442314421730093}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyHearing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +362,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6224273576973276260}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
@@ -350,7 +377,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6812786200954602327}
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.53, y: -0, z: 0.037496556}
+  m_LocalPosition: {x: 0.605, y: -0, z: 0.037496556}
   m_LocalScale: {x: 1, y: 3.3333323, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -367,7 +394,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7506191083074886358}
   - component: {fileID: 6647302223534441882}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: soldierleg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -453,8 +480,9 @@ GameObject:
   - component: {fileID: 8008404767356018942}
   - component: {fileID: 8008404767356018688}
   - component: {fileID: 8008404767356018689}
-  - component: {fileID: 8008404767356018940}
-  m_Layer: 0
+  - component: {fileID: 7627378383405393111}
+  - component: {fileID: 7972565548630042638}
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -568,7 +596,7 @@ MonoBehaviour:
   _movespeed: 4
   _stoppingDistancetoPlayer: 3
   _stoppingDistancetoTarget: 0.05
-  _bullet: {fileID: 8431407443565997090, guid: 16fb440b69dbb31429a119891d9a632f, type: 3}
+  _bullet: {fileID: 8431407443565997090, guid: 8aae1691e63f8c24ba1b88dbd9001d53, type: 3}
   _targets:
   - {fileID: 0}
   - {fileID: 0}
@@ -577,10 +605,29 @@ MonoBehaviour:
   _wallLayer:
     serializedVersion: 2
     m_Bits: 64
-  _lineend: {fileID: 0}
   _crashEffect: {fileID: 7156874214178413529, guid: 721de5440f8f3a648800517cece0e417, type: 3}
---- !u!61 &8008404767356018940
-BoxCollider2D:
+--- !u!95 &7627378383405393111
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8008404767356018690}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!70 &7972565548630042638
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -592,19 +639,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.28, y: 1.28}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Offset: {x: -0.06285852, y: 0.1780991}
+  m_Size: {x: 0.90284884, y: 0.9238018}
+  m_Direction: 0
 --- !u!1 &8008404767520186216
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,7 +653,7 @@ GameObject:
   - component: {fileID: 8008404767520186215}
   - component: {fileID: 8008404767520186214}
   - component: {fileID: 8008404767520186213}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyFOV
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -10,22 +10,35 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameManager _gm;
     [SerializeField] bool _godmode;
     [SerializeField] GameObject _crashEffect;
+    [SerializeField] float _pitchRange = 0.1f;
     Rigidbody2D _rb;
     float _h;
     float _v;
+    AudioSource _audioSource;
+    [SerializeField] AudioClip[] _audioclips;
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
         Vector2 dir = GameObject.Find("Crosshair").transform.position - transform.position;
-        transform.right = dir;
+        transform.up = dir;
         if (_gm._start == true)
         {
             _h = Input.GetAxisRaw("Horizontal");
             _v = Input.GetAxisRaw("Vertical");
+        }
+
+        if (_h != 0 || _v != 0)
+        {
+            GetComponent<Animator>().SetBool("Walk", true);
+        }
+        else
+        {
+            GetComponent<Animator>().SetBool("Walk", false);
         }
     }
     private void FixedUpdate()
@@ -43,7 +56,13 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Door"))
         {
+            _audioSource.PlayOneShot(_audioclips[2]);
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(this.gameObject.transform.up * 100, ForceMode2D.Impulse);
         }
+    }
+    public void PlayFootstepSound()
+    {
+        _audioSource.pitch = 1.0f + Random.Range(-_pitchRange, _pitchRange);
+        _audioSource.PlayOneShot(_audioclips[Random.Range(0, 1)]);
     }
 }
